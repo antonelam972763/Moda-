@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuauStyle 🐾 Moda y Comodidad para tu Perro</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lavender: {
+                            50: '#f9f6fc',
+                            100: '#f2ecf9',
+                            200: '#e5d9f3',
+                            300: '#d1bdea',
+                            400: '#b899df',
+                            500: '#9b71d2',
+                            600: '#8453c0',
+                            700: '#6f41a5',
+                            800: '#5c3787',
+                            900: '#4c2e6e',
+                        },
+                        softpink: {
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            500: '#ec4899',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Inter & Quicksand for a cute juvenile aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, .font-cute {
+            font-family: 'Quicksand', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f2ecf9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1bdea;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b899df;
+        }
+    </style>
+</head>
+<body class="bg-lavender-50 text-slate-700 min-h-screen flex flex-col selection:bg-lavender-200 selection:text-lavender-900">
+
+    <!-- Navbar / Header -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-lavender-200 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+                <div class="w-12 h-12 bg-lavender-200 rounded-full flex items-center justify-center text-lavender-700 text-2xl shadow-inner">
+                    🐶
+                </div>
+                <div>
+                    <span class="text-2xl font-bold font-cute bg-gradient-to-r from-lavender-600 to-softpink-500 bg-clip-text text-transparent">GuauStyle</span>
+                    <span class="block text-xs text-slate-400 font-medium">Boutique & Accesorios</span>
+                </div>
+            </div>
+
+            <!-- Search Bar (Desktop) -->
+            <div class="hidden md:flex items-center flex-1 max-w-md mx-8">
+                <div class="relative w-full">
+                    <input type="text" id="desktop-search" placeholder="¿Qué estás buscando para tu perrito?" class="w-full bg-lavender-50 border border-lavender-200 rounded-full py-2.5 pl-11 pr-4 text-sm text-slate-700 focus:outline-none focus:border-lavender-400 focus:ring-2 focus:ring-lavender-200 transition" oninput="handleSearch(this.value)">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-lavender-400"></i>
+                </div>
+            </div>
+
+            <!-- Navigation Actions -->
+            <div class="flex items-center gap-4">
+                <button onclick="navigateTo('guide')" class="hidden lg:flex items-center gap-2 text-sm font-medium text-lavender-700 hover:text-lavender-900 bg-lavender-100 hover:bg-lavender-200 px-4 py-2 rounded-full transition">
+                    <i class="fa-solid fa-ruler-combined"></i> Cómo medir
+                </button>
+                
+                <!-- Cart Button -->
+                <button onclick="openCartModal()" class="relative bg-lavender-600 hover:bg-lavender-700 text-white px-5 py-2.5 rounded-full flex items-center gap-2 shadow-md hover:shadow-lg transition transform active:scale-95">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="font-medium hidden sm:inline">Carrito</span>
+                    <span id="cart-counter" class="absolute -top-1.5 -right-1.5 bg-softpink-500 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold shadow-sm border-2 border-white">0</span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-lavender-700 text-2xl p-2">
+                    <i class="fa-solid fa-bars" id="mobile-menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search & Menu drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-lavender-200 px-4 py-3 space-y-3">
+            <div class="relative w-full">
+                <input type="text" id="mobile-search" placeholder="¿Qué estás buscando para tu perrito?" class="w-full bg-lavender-50 border border-lavender-200 rounded-full py-2 pl-10 pr-4 text-sm text-slate-700 focus:outline-none" oninput="handleSearch(this.value)">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-lavender-400"></i>
+            </div>
+            <div class="flex flex-col gap-2 pt-2">
+                <button onclick="navigateTo('guide'); toggleMobileMenu();" class="text-left text-sm font-medium text-lavender-700 py-2 px-3 rounded-lg hover:bg-lavender-50">
+                    <i class="fa-solid fa-ruler-combined mr-2"></i> Guía de medidas
+                </button>
+                <button onclick="filterCategory('all'); toggleMobileMenu();" class="text-left text-sm font-medium text-slate-700 py-2 px-3 rounded-lg hover:bg-lavender-50">
+                    <i class="fa-solid fa-store mr-2"></i> Ver todos los productos
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Categories Quick Bar -->
+    <nav class="bg-white border-b border-lavender-100 shadow-sm overflow-x-auto py-3">
+        <div class="max-w-7xl mx-auto px-4 flex items-center gap-3 sm:gap-4 min-w-max">
+            <button onclick="filterCategory('all')" id="cat-all" class="category-btn active px-4 py-1.5 rounded-full text-sm font-medium bg-lavender-600 text-white shadow-sm transition">
+                🐾 Todos
+            </button>
+            <button onclick="filterCategory('Poleras')" id="cat-Poleras" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium bg-lavender-100 text-lavender-800 hover:bg-lavender-200 transition">
+                👕 Poleras
+            </button>
+            <button onclick="filterCategory('Chaquetas')" id="cat-Chaquetas" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium bg-lavender-100 text-lavender-800 hover:bg-lavender-200 transition">
+                🧥 Chaquetas
+            </button>
+            <button onclick="filterCategory('Polerones')" id="cat-Polerones" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium bg-lavender-100 text-lavender-800 hover:bg-lavender-200 transition">
+                🧶 Polerones
+            </button>
+            <button onclick="filterCategory('Vestidos')" id="cat-Vestidos" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium bg-lavender-100 text-lavender-800 hover:bg-lavender-200 transition">
+                👗 Vestidos
+            </button>
+            <button onclick="filterCategory('Accesorios')" id="cat-Accesorios" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium bg-lavender-100 text-lavender-800 hover:bg-lavender-200 transition">
+                🎀 Accesorios
+            </button>
+            <button onclick="filterCategory('Collares')" id="cat-Collares" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium bg-lavender-100 text-lavender-800 hover:bg-lavender-200 transition">
+                🏷️ Collares
+            </button>
+            <button onclick="filterCategory('Arneses')" id="cat-Arneses" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium bg-lavender-100 text-lavender-800 hover:bg-lavender-200 transition">
+                🦮 Arneses
+            </button>
+            <button onclick="filterCategory('Camas')" id="cat-Camas" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium bg-lavender-100 text-lavender-800 hover:bg-lavender-200 transition">
+                🧸 Camas
+            </button>
+            <button onclick="filterCategory('Otros')" id="cat-Otros" class="category-btn px-4 py-1.5 rounded-full text-sm font-medium bg-lavender-100 text-lavender-800 hover:bg-lavender-200 transition">
+                🦴 Otros
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Dynamic Content Area -->
+    <main class="flex-1">
+
+        <!-- Hero Section (Portada) -->
+        <section id="hero-section" class="relative bg-gradient-to-b from-lavender-100/60 to-lavender-50 py-12 md:py-20 overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-64 h-64 bg-lavender-200/50 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-10 -bottom-10 w-64 h-64 bg-softpink-100/50 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6 text-center lg:text-left">
+                        <span class="inline-flex items-center gap-2 bg-white text-lavender-700 px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm border border-lavender-200">
+                            ✨ Nueva Colección Otoño-Invierno 2026
+                        </span>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-cute text-slate-800 leading-tight">
+                            Moda y comodidad para tu mejor amigo <span class="inline-block animate-bounce">🐶</span>
+                        </h1>
+                        <p class="text-lg text-slate-600 max-w-lg mx-auto lg:mx-0">
+                            Prendas exclusivas, suaves y abrigadoras diseñadas para razas pequeñas, medianas y grandes con estilo urbano y outdoor.
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                            <button onclick="scrollToProducts()" class="bg-lavender-600 hover:bg-lavender-700 text-white font-semibold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center gap-3">
+                                <i class="fa-solid fa-shirt"></i> Ver productos
+                            </button>
+                            <button onclick="navigateTo('guide')" class="bg-white hover:bg-lavender-50 text-lavender-700 border border-lavender-300 font-semibold px-6 py-4 rounded-full shadow-sm transition flex items-center gap-2">
+                                <i class="fa-solid fa-ruler"></i> ¿Cómo medir a mi perro?
+                            </button>
+                        </div>
+                        <div class="pt-4 flex items-center justify-center lg:justify-start gap-6 text-slate-500 text-sm font-medium">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-truck-fast text-lavender-600 text-lg"><span> Envío rápido a todo Chile</span></i>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-heart text-softpink-500 text-lg"><span> +5.000 perritos felices</span></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero Image Grid / Collage -->
+                    <div class="grid grid-cols-2 gap-4 relative">
+                        <div class="space-y-4">
+                            <div class="rounded-3xl overflow-hidden shadow-lg bg-white p-2 border-2 border-lavender-200 transform -rotate-2 hover:rotate-0 transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80" alt="Perro con polera" class="w-full h-48 object-cover rounded-2xl" onerror="this.src='https://placehold.co/400x300/f2ecf9/8453c0?text=GuauStyle+Dog'">
+                                <div class="p-2 text-center text-xs font-semibold text-slate-700">Polera Estilo Urbano</div>
+                            </div>
+                            <div class="rounded-3xl overflow-hidden shadow-lg bg-white p-2 border-2 border-lavender-200 transform rotate-1 hover:rotate-0 transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80" alt="Perro con chaleco" class="w-full h-36 object-cover rounded-2xl" onerror="this.src='https://placehold.co/400x300/f2ecf9/8453c0?text=GuauStyle+Dog'">
+                                <div class="p-2 text-center text-xs font-semibold text-slate-700">Chaqueta Outdoor</div>
+                            </div>
+                        </div>
+                        <div class="space-y-4 pt-6">
+                            <div class="rounded-3xl overflow-hidden shadow-lg bg-white p-2 border-2 border-lavender-200 transform rotate-2 hover:rotate-0 transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=600&q=80" alt="Perro con accesorio" class="w-full h-36 object-cover rounded-2xl" onerror="this.src='https://placehold.co/400x300/f2ecf9/8453c0?text=GuauStyle+Dog'">
+                                <div class="p-2 text-center text-xs font-semibold text-slate-700">Accesorios & Bandanas</div>
+                            </div>
+                            <div class="rounded-3xl overflow-hidden shadow-lg bg-white p-2 border-2 border-lavender-200 transform -rotate-1 hover:rotate-0 transition duration-300">
+                                <img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=600&q=80" alt="Cama para perro" class="w-full h-48 object-cover rounded-2xl" onerror="this.src='https://placehold.co/400x300/f2ecf9/8453c0?text=GuauStyle+Dog'">
+                                <div class="p-2 text-center text-xs font-semibold text-slate-700">Camas Acolchadas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4 border-b border-lavender-200 pb-6">
+                <div>
+                    <span class="text-lavender-600 font-semibold text-sm uppercase tracking-wider">Catálogo Exclusivo</span>
+                    <h2 class="text-3xl font-bold font-cute text-slate-800 mt-1" id="section-title">Todos nuestros productos 🐾</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-slate-500 font-medium">Ordenar por:</span>
+                    <select id="sort-select" onchange="sortProducts(this.value)" class="bg-white border border-lavender-200 rounded-xl px-4 py-2 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                        <option value="featured">Destacados</option>
+                        <option value="price-asc">Precio: Menor a Mayor</option>
+                        <option value="price-desc">Precio: Mayor a Menor</option>
+                        <option value="name">Nombre (A-Z)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+
+            <!-- Empty state for search/filter -->
+            <div id="no-products" class="hidden text-center py-20 bg-white rounded-3xl border border-lavender-200 shadow-sm mt-6">
+                <div class="text-5xl mb-4">😿</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">No encontramos productos</h3>
+                <p class="text-slate-500 text-sm max-w-md mx-auto mb-6">Intenta con otra palabra clave o categoría para consentir a tu perrito.</p>
+                <button onclick="filterCategory('all'); resetSearch();" class="bg-lavender-600 text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-lavender-700 transition">Ver todos los productos</button>
+            </div>
+        </section>
+
+        <!-- Measurement Guide Section -->
+        <section id="guide-section" class="hidden max-w-5xl mx-auto px-4 py-16">
+            <div class="bg-white rounded-3xl border-2 border-lavender-200 shadow-xl overflow-hidden p-8 sm:p-12">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="bg-lavender-100 text-lavender-700 px-4 py-1.5 rounded-full text-sm font-semibold">📏 Guía de Tallas</span>
+                    <h2 class="text-3xl font-bold font-cute text-slate-800 mt-3">¿Cómo medir correctamente a tu perro?</h2>
+                    <p class="text-slate-600 mt-2 text-sm sm:text-base">Sigue estos simples pasos con una huincha de medir flexible para asegurarte de que la ropa le quede perfecta y cómoda.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                    <div class="bg-lavender-50/70 p-6 rounded-2xl border border-lavender-200 text-center space-y-3">
+                        <div class="w-16 h-16 bg-lavender-200 rounded-full flex items-center justify-center text-lavender-700 text-2xl mx-auto font-bold font-cute">1</div>
+                        <h3 class="font-bold text-slate-800 text-lg">Cuello (Circunferencia)</h3>
+                        <p class="text-slate-600 text-sm">Mide alrededor de la base del cuello donde normalmente descansaría el collar, dejando espacio para un dedo.</p>
+                    </div>
+
+                    <div class="bg-lavender-50/70 p-6 rounded-2xl border border-lavender-200 text-center space-y-3">
+                        <div class="w-16 h-16 bg-lavender-200 rounded-full flex items-center justify-center text-lavender-700 text-2xl mx-auto font-bold font-cute">2</div>
+                        <h3 class="font-bold text-slate-800 text-lg">Pecho (Ancho/Tórax)</h3>
+                        <p class="text-slate-600 text-sm">Mide la parte más ancha del pecho, justo detrás de las patas delanteras. Es la medida más importante para poleras y chaquetas.</p>
+                    </div>
+
+                    <div class="bg-lavender-50/70 p-6 rounded-2xl border border-lavender-200 text-center space-y-3">
+                        <div class="w-16 h-16 bg-lavender-200 rounded-full flex items-center justify-center text-lavender-700 text-2xl mx-auto font-bold font-cute">3</div>
+                        <h3 class="font-bold text-slate-800 text-lg">Largo de Espalda</h3>
+                        <p class="text-slate-600 text-sm">Mide desde la base del cuello (donde empieza la columna) hasta la base de la cola.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-lavender-100 to-softpink-100 p-6 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center gap-4">
+                        <span class="text-4xl">💡</span>
+                        <div>
+                            <h4 class="font-bold text-slate-800">¿Tienes dudas con la talla exacta?</h4>
+                            <p class="text-sm text-slate-600">Si tu perrito está entre dos tallas, te recomendamos elegir siempre la talla superior para mayor comodidad.</p>
+                        </div>
+                    </div>
+                    <button onclick="navigateTo('home'); scrollToProducts();" class="bg-lavender-600 hover:bg-lavender-700 text-white font-semibold px-6 py-3 rounded-full text-sm shadow-md whitespace-nowrap transition">
+                        Ver ropa disponible
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Product Detail Modal -->
+    <div id="product-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-lavender-200 relative animate-in fade-in zoom-in duration-200">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 bg-white/80 hover:bg-lavender-100 text-slate-600 w-10 h-10 rounded-full flex items-center justify-center transition shadow-md">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div id="modal-content" class="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 sm:p-8">
+                <!-- Dynamically populated product details -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal / Drawer -->
+    <div id="cart-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex justify-end">
+        <div class="bg-white w-full max-w-md h-full flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
+            <div class="p-6 border-b border-lavender-200 flex items-center justify-between bg-lavender-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-lavender-200 rounded-full flex items-center justify-center text-lavender-700">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold font-cute text-xl text-slate-800">Tu Carrito de Compras</h3>
+                        <p class="text-xs text-slate-500" id="cart-items-count-text">0 productos</p>
+                    </div>
+                </div>
+                <button onclick="closeCartModal()" class="w-9 h-9 bg-white hover:bg-lavender-100 rounded-full flex items-center justify-center text-slate-500 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Cart Items List -->
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+                <!-- Cart items will be loaded here -->
+            </div>
+
+            <!-- Cart Summary & Checkout Trigger -->
+            <div id="cart-footer" class="p-6 border-t border-lavender-200 bg-lavender-50/50 space-y-4">
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between text-slate-600">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal" class="font-semibold text-slate-800">$0</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>Costo de envío (Todo Chile)</span>
+                        <span id="cart-shipping" class="font-semibold text-slate-800">$3.990</span>
+                    </div>
+                    <div class="border-t border-lavender-200 pt-2 flex justify-between text-base font-bold text-slate-800">
+                        <span>Total</span>
+                        <span id="cart-total" class="text-lavender-700 text-lg">$3.990</span>
+                    </div>
+                </div>
+
+                <button onclick="openCheckoutModal()" id="checkout-trigger-btn" class="w-full bg-lavender-600 hover:bg-lavender-700 text-white font-semibold py-4 rounded-2xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2 transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span>Continuar al pago</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-lavender-200 relative p-6 sm:p-10">
+            <div class="flex items-center justify-between pb-6 mb-6 border-b border-lavender-200">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-lavender-200 rounded-full flex items-center justify-center text-lavender-700">
+                        <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold font-cute text-slate-800">Finalizar Compra</h2>
+                        <p class="text-xs text-slate-500">Completa tus datos para recibir tu pedido GuauStyle</p>
+                    </div>
+                </div>
+                <button onclick="closeCheckoutModal()" class="w-9 h-9 bg-lavender-50 hover:bg-lavender-100 rounded-full flex items-center justify-center text-slate-500 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="checkout-form" onsubmit="processPayment(event)" class="space-y-8">
+                <!-- Client Info -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-user text-lavender-600"></i> 1. Información del Cliente
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nombre *</label>
+                            <input type="text" required placeholder="Ej. Camila" class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Apellido *</label>
+                            <input type="text" required placeholder="Ej. Soto" class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Correo electrónico *</label>
+                            <input type="email" required placeholder="tu@correo.cl" class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Teléfono (WhatsApp) *</label>
+                            <input type="tel" required placeholder="+56 9 1234 5678" class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-lavender-600"></i> 2. Dirección de Envío (Chile)
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Región *</label>
+                            <select required class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                                <option value="">Selecciona una región</option>
+                                <option value="RM">Región Metropolitana</option>
+                                <option value="V">Región de Valparaíso</option>
+                                <option value="VIII">Región del Biobío</option>
+                                <option value="IX">Región de La Araucanía</option>
+                                <option value="X">Región de Los Lagos</option>
+                                <option value="Other">Otra Región</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Comuna *</label>
+                            <input type="text" required placeholder="Ej. Providencia, Concepción, Viña..." class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                        </div>
+                        <div class="sm:col-span-2 grid grid-cols-3 gap-2">
+                            <div class="col-span-2">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Calle / Dirección *</label>
+                                <input type="text" required placeholder="Ej. Av. Los Leones" class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Número / Dpto *</label>
+                                <input type="text" required placeholder="Ej. 1234 A" class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                            </div>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Información adicional (Opcional)</label>
+                            <input type="text" placeholder="Ej. Dejar en conserjería, timbre malo..." class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-wallet text-lavender-600"></i> 3. Método de Pago
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <label class="border-2 border-lavender-200 hover:border-lavender-500 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer transition bg-lavender-50/30 has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-100/50">
+                            <input type="radio" name="payment_method" value="debito" required class="accent-lavender-600" onchange="togglePaymentFields('debito')">
+                            <i class="fa-solid fa-credit-card text-2xl text-lavender-700"></i>
+                            <span class="font-semibold text-sm text-slate-800">Tarjeta de Débito</span>
+                        </label>
+                        <label class="border-2 border-lavender-200 hover:border-lavender-500 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer transition bg-lavender-50/30 has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-100/50">
+                            <input type="radio" name="payment_method" value="credito" required class="accent-lavender-600" onchange="togglePaymentFields('credito')">
+                            <i class="fa-solid fa-credit-card text-2xl text-lavender-700"></i>
+                            <span class="font-semibold text-sm text-slate-800">Tarjeta de Crédito</span>
+                        </label>
+                        <label class="border-2 border-lavender-200 hover:border-lavender-500 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer transition bg-lavender-50/30 has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-100/50">
+                            <input type="radio" name="payment_method" value="otros" required class="accent-lavender-600" onchange="togglePaymentFields('otros')">
+                            <i class="fa-solid fa-mobile-screen text-2xl text-lavender-700"></i>
+                            <span class="font-semibold text-sm text-slate-800">Mercado Pago / Sencillito</span>
+                        </label>
+                    </div>
+
+                    <!-- Bank Selection (Appears for debit/credit) -->
+                    <div id="bank-selection-container" class="hidden space-y-4 pt-3 border-t border-lavender-200 animate-in fade-in">
+                        <label class="block text-xs font-semibold text-slate-600">Selecciona tu Banco (Chile) *</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="border border-lavender-200 hover:border-lavender-400 p-3 rounded-xl flex items-center gap-2 cursor-pointer text-xs font-medium bg-white has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-50">
+                                <input type="radio" name="bank" value="Banco Estado" class="accent-lavender-600"> Banco Estado
+                            </label>
+                            <label class="border border-lavender-200 hover:border-lavender-400 p-3 rounded-xl flex items-center gap-2 cursor-pointer text-xs font-medium bg-white has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-50">
+                                <input type="radio" name="bank" value="Banco Falabella" class="accent-lavender-600"> Banco Falabella
+                            </label>
+                            <label class="border border-lavender-200 hover:border-lavender-400 p-3 rounded-xl flex items-center gap-2 cursor-pointer text-xs font-medium bg-white has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-50">
+                                <input type="radio" name="bank" value="Banco de Chile" class="accent-lavender-600"> Banco de Chile
+                            </label>
+                            <label class="border border-lavender-200 hover:border-lavender-400 p-3 rounded-xl flex items-center gap-2 cursor-pointer text-xs font-medium bg-white has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-50">
+                                <input type="radio" name="bank" value="Santander" class="accent-lavender-600"> Santander
+                            </label>
+                            <label class="border border-lavender-200 hover:border-lavender-400 p-3 rounded-xl flex items-center gap-2 cursor-pointer text-xs font-medium bg-white has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-50">
+                                <input type="radio" name="bank" value="BCI" class="accent-lavender-600"> BCI
+                            </label>
+                            <label class="border border-lavender-200 hover:border-lavender-400 p-3 rounded-xl flex items-center gap-2 cursor-pointer text-xs font-medium bg-white has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-50">
+                                <input type="radio" name="bank" value="Scotiabank" class="accent-lavender-600"> Scotiabank
+                            </label>
+                            <label class="border border-lavender-200 hover:border-lavender-400 p-3 rounded-xl flex items-center gap-2 cursor-pointer text-xs font-medium bg-white has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-50">
+                                <input type="radio" name="bank" value="Itaú" class="accent-lavender-600"> Itaú
+                            </label>
+                            <label class="border border-lavender-200 hover:border-lavender-400 p-3 rounded-xl flex items-center gap-2 cursor-pointer text-xs font-medium bg-white has-[:checked]:border-lavender-600 has-[:checked]:bg-lavender-50">
+                                <input type="radio" name="bank" value="Otro Banco" class="accent-lavender-600"> Otro Banco
+                            </label>
+                        </div>
+
+                        <!-- Card Simulator Details -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div class="sm:col-span-2">
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Número de Tarjeta</label>
+                                <input type="text" placeholder="4000 1234 5678 9010" maxlength="19" class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Fecha de Expiración</label>
+                                <input type="text" placeholder="MM/AA" maxlength="5" class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">CVV</label>
+                                <input type="password" placeholder="123" maxlength="4" class="w-full bg-lavender-50/50 border border-lavender-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:outline-none focus:border-lavender-400">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Final Summary -->
+                <div class="bg-lavender-50 p-6 rounded-2xl border border-lavender-200 space-y-2">
+                    <h4 class="font-bold text-slate-800 text-sm mb-2">Resumen del pedido</h4>
+                    <div id="checkout-summary-list" class="space-y-1 text-xs text-slate-600 max-h-32 overflow-y-auto">
+                        <!-- Summary list -->
+                    </div>
+                    <div class="border-t border-lavender-200 pt-3 flex justify-between font-bold text-slate-800 text-base">
+                        <span>Total a pagar:</span>
+                        <span id="checkout-modal-total" class="text-lavender-700">$0</span>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <button type="submit" class="w-full bg-gradient-to-r from-lavender-600 to-softpink-500 hover:from-lavender-700 hover:to-softpink-600 text-white font-bold py-4 rounded-2xl shadow-xl hover:shadow-2xl transition transform active:scale-95 flex items-center justify-center gap-3 text-base">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Pagar y realizar pedido 🐾</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 text-center space-y-6 shadow-2xl border-2 border-lavender-200 animate-in zoom-in-95 duration-300">
+            <div class="w-20 h-20 bg-lavender-100 rounded-full flex items-center justify-center text-4xl mx-auto text-lavender-600 shadow-inner">
+                🎉
+            </div>
+            <div class="space-y-2">
+                <h3 class="text-2xl font-bold font-cute text-slate-800">¡Pedido realizado con éxito!</h3>
+                <p class="text-sm text-slate-600">Muchas gracias por confiar en <span class="font-bold text-lavender-700">GuauStyle</span>. Hemos enviado el comprobante a tu correo y tu perrito ya está preparando su colita de la emoción.</p>
+            </div>
+            <div class="bg-lavender-50 p-4 rounded-2xl text-xs text-slate-500">
+                Número de pedido: <span class="font-bold text-slate-700">#GS-2026-<span id="order-number">9482</span></span>
+            </div>
+            <button onclick="finishAndReset()" class="w-full bg-lavender-600 hover:bg-lavender-700 text-white font-semibold py-3.5 rounded-xl shadow-md transition">
+                Volver a la tienda
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-lavender-200 text-slate-600 pt-12 pb-8 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-lavender-200 rounded-full flex items-center justify-center text-lavender-700 text-xl font-bold">
+                        🐶
+                    </div>
+                    <span class="text-xl font-bold font-cute text-slate-800">GuauStyle</span>
+                </div>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    La tienda online líder en Chile especializada en moda, comodidad, abrigos y accesorios llenos de ternura para consentir a tu mejor amigo de 4 patas.
+                </p>
+                <div class="flex items-center gap-3 text-lavender-600">
+                    <a href="#" class="w-9 h-9 bg-lavender-50 hover:bg-lavender-100 rounded-full flex items-center justify-center transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-9 h-9 bg-lavender-50 hover:bg-lavender-100 rounded-full flex items-center justify-center transition"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="w-9 h-9 bg-lavender-50 hover:bg-lavender-100 rounded-full flex items-center justify-center transition"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold font-cute text-slate-800 text-sm mb-3">Categorías Principales</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" onclick="filterCategory('Poleras'); return false;" class="hover:text-lavender-600 transition">Poleras para perros</a></li>
+                    <li><a href="#" onclick="filterCategory('Chaquetas'); return false;" class="hover:text-lavender-600 transition">Chaquetas y Abrigos</a></li>
+                    <li><a href="#" onclick="filterCategory('Vestidos'); return false;" class="hover:text-lavender-600 transition">Vestidos tiernos</a></li>
+                    <li><a href="#" onclick="filterCategory('Camas'); return false;" class="hover:text-lavender-600 transition">Camas acolchadas</a></li>
+                    <li><a href="#" onclick="filterCategory('Accesorios'); return false;" class="hover:text-lavender-600 transition">Accesorios & Bandanas</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold font-cute text-slate-800 text-sm mb-3">Atención al Cliente</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="#" onclick="navigateTo('guide'); return false;" class="hover:text-lavender-600 transition">📏 Guía de cómo medir</a></li>
+                    <li><a href="#" class="hover:text-lavender-600 transition">📦 Tiempos y costos de envío</a></li>
+                    <li><a href="#" class="hover:text-lavender-600 transition">🔄 Cambios y devoluciones</a></li>
+                    <li><a href="#" class="hover:text-lavender-600 transition">💬 Preguntas frecuentes</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold font-cute text-slate-800 text-sm mb-3">¡Únete a la Manada!</h4>
+                <p class="text-xs text-slate-500 mb-3">Suscríbete y recibe 10% de descuento en tu primera compra para tu perrito.</p>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Tu correo..." class="bg-lavender-50 border border-lavender-200 rounded-xl px-3 py-2 text-xs flex-1 focus:outline-none focus:border-lavender-400">
+                    <button onclick="showToast('¡Gracias por suscribirte! 🐾')" class="bg-lavender-600 hover:bg-lavender-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">Unirme</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-lavender-100 pt-6 text-center text-xs text-slate-400">
+            <p>&copy; 2026 GuauStyle Chile. Todos los derechos reservados. Diseñado con amor para perritos felices 🐾</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Product Database with multi-photos (Dog wearing, detail angle, product alone)
+        const products = [
+            {
+                id: 1,
+                name: "Polera Negra Urbana Estilo Sport",
+                category: "Poleras",
+                price: 19990,
+                color: "Negro",
+                size: "M (Mediano)",
+                measurements: "Ancho: 30 cm × Largo: 50 cm × Cuello: 20 cm",
+                material: "Algodón orgánico respirable y elástico",
+                description: "Polera de diseño urbano inspirada en la comodidad deportiva. Perfecta para paseos de tarde, ligera y fácil de colocar.",
+                dogBreed: "Pug / Bulldog Francés",
+                photos: [
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Negro", "Blanco", "Rosado", "Lila"],
+                sizesAvailable: ["S (Pequeño)", "M (Mediano)", "L (Grande)"]
+            },
+            {
+                id: 2,
+                name: "Polera Blanca Minimalista",
+                category: "Poleras",
+                price: 18990,
+                color: "Blanco",
+                size: "S (Pequeño)",
+                measurements: "Ancho: 25 cm × Largo: 40 cm × Cuello: 16 cm",
+                material: "Algodón premium antialérgico",
+                description: "Clásica polera blanca combinable con cualquier accesorio. Tela suave que cuida la piel delicada de tu mascota.",
+                dogBreed: "Chihuahua / Pomerania",
+                photos: [
+                    "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Blanco", "Negro", "Lila"],
+                sizesAvailable: ["XS (Toy)", "S (Pequeño)", "M (Mediano)"]
+            },
+            {
+                id: 3,
+                name: "Polera Rosada con Estampado Huellitas",
+                category: "Poleras",
+                price: 20990,
+                color: "Rosado Pastel",
+                size: "M (Mediano)",
+                measurements: "Ancho: 32 cm × Largo: 48 cm × Cuello: 22 cm",
+                material: "Algodón y spandex",
+                description: "Tierno diseño en tono rosado pastel con delicados estampados de huellitas. Muy juvenil y alegre.",
+                dogBreed: "Caniche / Poodle",
+                photos: [
+                    "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Rosado", "Lila", "Blanco"],
+                sizesAvailable: ["S (Pequeño)", "M (Mediano)", "L (Grande)"]
+            },
+            {
+                id: 4,
+                name: "Polera Lila Colección Lavanda",
+                category: "Poleras",
+                price: 19990,
+                color: "Lila Lavanda",
+                size: "L (Grande)",
+                measurements: "Ancho: 42 cm × Largo: 65 cm × Cuello: 30 cm",
+                material: "Algodón peinado de alta durabilidad",
+                description: "El color estrella de nuestra tienda. Suave, elegante y con un calce perfecto para perros medianos y grandes.",
+                dogBreed: "Golden Retriever / Labrador",
+                photos: [
+                    "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Lila", "Negro", "Azul Pastel"],
+                sizesAvailable: ["M (Mediano)", "L (Grande)", "XL (Extra Grande)"]
+            },
+            {
+                id: 5,
+                name: "Chaqueta Abrigadora Estilo Outdoor",
+                category: "Chaquetas",
+                price: 29990,
+                color: "Verde Salvia / Lila",
+                size: "L (Grande)",
+                measurements: "Ancho: 45 cm × Largo: 70 cm × Cuello: 34 cm",
+                material: "Tela exterior impermeable y forro polar térmico",
+                description: "Inspirada en el estilo outdoor de alta montaña. Mantiene a tu perro abrigado y seco en los días fríos de invierno.",
+                dogBreed: "Pastor Alemán / Border Collie",
+                photos: [
+                    "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Verde Salvia", "Negro", "Lila"],
+                sizesAvailable: ["M (Mediano)", "L (Grande)", "XL (Extra Grande)"]
+            },
+            {
+                id: 6,
+                name: "Polerón con Gorro 'Cozy Paws'",
+                category: "Polerones",
+                price: 24990,
+                color: "Gris Suave con Lila",
+                size: "M (Mediano)",
+                measurements: "Ancho: 34 cm × Largo: 52 cm × Cuello: 24 cm",
+                material: "Algodón plush térmico interior",
+                description: "Polerón con capucha y bolsillo trasero decorativo. Súper abrigador, suave al tacto y con abertura para la correa.",
+                dogBreed: "Beagle / Cocker Spaniel",
+                photos: [
+                    "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Gris", "Lila Pastel", "Rosa"],
+                sizesAvailable: ["S (Pequeño)", "M (Mediano)", "L (Grande)"]
+            },
+            {
+                id: 7,
+                name: "Vestido Floral Primavera",
+                category: "Vestidos",
+                price: 22990,
+                color: "Estampado Floral Lila",
+                size: "S (Pequeño)",
+                measurements: "Ancho: 26 cm × Largo: 38 cm × Cuello: 18 cm",
+                material: "Lino ligero y algodón fresco",
+                description: "Hermoso vestido con vuelos y estampado floral delicado. Ideal para días soleados y paseos por la plaza.",
+                dogBreed: "Shih Tzu / Yorkshire Terrier",
+                photos: [
+                    "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Floral Lila", "Floral Rosado"],
+                sizesAvailable: ["XS (Toy)", "S (Pequeño)", "M (Mediano)"]
+            },
+            {
+                id: 8,
+                name: "Cama Nube Acolchada Lavanda",
+                category: "Camas",
+                price: 38990,
+                color: "Lavanda Suave",
+                size: "Grande (80 cm)",
+                measurements: "Ancho: 80 cm × Largo: 80 cm × Alto: 25 cm",
+                material: "Peluche ultra suave y relleno hipoalergénico",
+                description: "Cama redonda tipo nube que brinda un soporte ortopédico y relajante para que tu perrito duerma plácidamente.",
+                dogBreed: "Cualquier raza (Ideal perros medianos)",
+                photos: [
+                    "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Lavanda", "Gris Perla", "Rosa Pastel"],
+                sizesAvailable: ["Mediana (60cm)", "Grande (80cm)", "Gigante (100cm)"]
+            },
+            {
+                id: 9,
+                name: "Collar Ajustable con Pañoleta 'GuauStyle'",
+                category: "Collares",
+                price: 14990,
+                color: "Lila con Corazones",
+                size: "Ajustable M",
+                measurements: "Ancho cinta: 2.5 cm × Largo ajustable: 35-50 cm",
+                material: "Nylon de alta resistencia y pañoleta de algodón",
+                description: "Collar seguro con hebilla de liberación rápida y pañoleta removible con diseño exclusivo de corazones y huellas.",
+                dogBreed: "Perros medianos y grandes",
+                photos: [
+                    "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Lila Corazones", "Rosa Huellas", "Negro Minimal"],
+                sizesAvailable: ["S (Pequeño)", "M (Mediano)", "L (Grande)"]
+            },
+            {
+                id: 10,
+                name: "Arnés Antitracción Ergonómico",
+                category: "Arneses",
+                price: 26990,
+                color: "Lila & Gris",
+                size: "M (Mediano)",
+                measurements: "Pecho ajustable: 50-70 cm × Ancho: 3 cm",
+                material: "Malla respirable acolchada anti-ahogamiento",
+                description: "Arnés cómodo que distribuye la presión uniformemente en el pecho evitando tirones. Reflectante nocturno.",
+                dogBreed: "Français / Beagle / Mestizos",
+                photos: [
+                    "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Lila", "Negro", "Rosa"],
+                sizesAvailable: ["S (Pequeño)", "M (Mediano)", "L (Grande)"]
+            },
+            {
+                id: 11,
+                name: "Set de Shampoo Orgánico y Bálsamo de Hocico",
+                category: "Otros",
+                price: 16990,
+                color: "Natural / Lavanda",
+                size: "250 ml c/u",
+                measurements: "Frasco dosificador 250 ml",
+                material: "Extracto de avena, manzanilla y aceite de coco",
+                description: "Shampoo hipoalergénico que deja el pelaje brillante y suave, acompañado de bálsamo hidratante natural para nariz y patitas.",
+                dogBreed: "Todas las razas y tipos de pelaje",
+                photos: [
+                    "https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Avena & Lavanda"],
+                sizesAvailable: ["Estándar (250 ml)"]
+            },
+            {
+                id: 12,
+                name: "Bandana Navideña / Celebración 'Party Dog'",
+                category: "Accesorios",
+                price: 9990,
+                color: "Lila con Dorado",
+                size: "Única ajustable",
+                measurements: "Largo: 60 cm × Alto triangular: 20 cm",
+                material: "Algodón satinado suave",
+                description: "Bandana festiva con detalles brillantes para que tu perrito luzca radiante en cumpleaños, paseos o sesiones de fotos.",
+                dogBreed: "Cualquier tamaño (Ajustable)",
+                photos: [
+                    "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=600&q=80",
+                    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80"
+                ],
+                colorsAvailable: ["Lila/Dorado", "Rosa/Plata"],
+                sizesAvailable: ["Única Ajustable"]
+            }
+        ];
+
+        // Global Application State
+        let cart = [];
+        let currentCategory = 'all';
+        let searchQuery = '';
+        let currentSort = 'featured';
+
+        // Initialize application on window load
+        window.onload = function() {
+            renderProducts();
+            updateCartUI();
+        };
+
+        // Navigation between views (Home, Guide)
+        function navigateTo(view) {
+            const hero = document.getElementById('hero-section');
+            const productsSec = document.getElementById('products-section');
+            const guideSec = document.getElementById('guide-section');
+
+            if (view === 'home') {
+                hero.classList.remove('hidden');
+                productsSec.classList.remove('hidden');
+                guideSec.classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (view === 'guide') {
+                hero.classList.add('hidden');
+                productsSec.classList.add('hidden');
+                guideSec.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function scrollToProducts() {
+            navigateTo('home');
+            document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Filter by category
+        function filterCategory(cat) {
+            currentCategory = cat;
+            navigateTo('home');
+            
+            // Update active buttons styling
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-lavender-600', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-lavender-100', 'text-lavender-800');
+            });
+            
+            const activeBtn = document.getElementById(`cat-${cat}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-lavender-100', 'text-lavender-800');
+                activeBtn.classList.add('bg-lavender-600', 'text-white', 'shadow-sm');
+            }
+
+            // Update title
+            const titleEl = document.getElementById('section-title');
+            if (cat === 'all') {
+                titleEl.textContent = 'Todos nuestros productos 🐾';
+            } else {
+                titleEl.textContent = `${cat} para perritos 🐶`;
+            }
+
+            renderProducts();
+        }
+
+        // Handle Search input
+        function handleSearch(query) {
+            searchQuery = query.toLowerCase().trim();
+            navigateTo('home');
+            renderProducts();
+        }
+
+        function resetSearch() {
+            document.getElementById('desktop-search').value = '';
+            document.getElementById('mobile-search').value = '';
+            searchQuery = '';
+            renderProducts();
+        }
+
+        // Sorting products
+        function sortProducts(criteria) {
+            currentSort = criteria;
+            renderProducts();
+        }
+
+        // Render products grid with multi-photo interactive box preview
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const noProducts = document.getElementById('no-products');
+            
+            let filtered = products.filter(p => {
+                const matchesCat = currentCategory === 'all' || p.category === currentCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery) || p.description.toLowerCase().includes(searchQuery) || p.category.toLowerCase().includes(searchQuery) || p.dogBreed.toLowerCase().includes(searchQuery);
+                return matchesCat && matchesSearch;
+            });
+
+            // Sorting
+            if (currentSort === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (currentSort === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (currentSort === 'name') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+            }
+
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                noProducts.classList.remove('hidden');
+                return;
+            } else {
+                noProducts.classList.add('hidden');
+            }
+
+            filtered.forEach((product, idx) => {
+                const formattedPrice = '$' + product.price.toLocaleString('es-CL');
+                
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-3xl border border-lavender-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group';
+                
+                card.innerHTML = `
+                    <div class="relative bg-lavender-50 aspect-square overflow-hidden cursor-pointer" onclick="openProductModal(${product.id})">
+                        <!-- Multi-photo Box Gallery Slider (Simulated with active index) -->
+                        <div class="product-gallery-${product.id} w-full h-full relative">
+                            <img src="${product.photos[0]}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/400x400/f2ecf9/8453c0?text=GuauStyle'">
+                        </div>
+
+                        <!-- Badge -->
+                        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-lavender-700 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                            ${product.category}
+                        </span>
+
+                        <!-- Photo indicator dots -->
+                        <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 z-10" onclick="event.stopPropagation()">
+                            <button onclick="changeCardPhoto(${product.id}, 0)" class="w-2 h-2 rounded-full bg-white shadow-sm dot-${product.id}-0 transition opacity-90"></button>
+                            <button onclick="changeCardPhoto(${product.id}, 1)" class="w-2 h-2 rounded-full bg-white/60 hover:bg-white shadow-sm dot-${product.id}-1 transition"></button>
+                            <button onclick="changeCardPhoto(${product.id}, 2)" class="w-2 h-2 rounded-full bg-white/60 hover:bg-white shadow-sm dot-${product.id}-2 transition"></button>
+                        </div>
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                        <div class="space-y-1.5 cursor-pointer" onclick="openProductModal(${product.id})">
+                            <div class="text-xs text-lavender-600 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-dog text-xs"></i> Modelo: ${product.dogBreed}
+                            </div>
+                            <h3 class="font-bold text-slate-800 text-base font-cute line-clamp-1 group-hover:text-lavender-600 transition">${product.name}</h3>
+                            <p class="text-xs text-slate-500 line-clamp-1"><i class="fa-solid fa-ruler-combined text-lavender-500 mr-1"></i> ${product.measurements}</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-lavender-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-slate-400 block">Precio</span>
+                                <span class="text-lg font-bold text-lavender-700 font-cute">${formattedPrice}</span>
+                            </div>
+                            <button onclick="quickAddToCart(event, ${product.id})" class="bg-lavender-100 hover:bg-lavender-600 text-lavender-800 hover:text-white px-4 py-2.5 rounded-2xl text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-sm active:scale-95">
+                                <i class="fa-solid fa-cart-plus"></i> Añadir
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Change photo inside the card gallery box
+        function changeCardPhoto(productId, photoIndex) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const galleryContainer = document.querySelector(`.product-gallery-${productId}`);
+            if (galleryContainer) {
+                galleryContainer.innerHTML = `<img src="${product.photos[photoIndex]}" alt="${product.name}" class="w-full h-full object-cover transition duration-300" onerror="this.src='https://placehold.co/400x400/f2ecf9/8453c0?text=GuauStyle'">`;
+            }
+        }
+
+        // Open Product Detail Modal
+        function openProductModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const modal = document.getElementById('product-modal');
+            const content = document.getElementById('modal-content');
+            const formattedPrice = '$' + product.price.toLocaleString('es-CL');
+
+            content.innerHTML = `
+                <!-- Left: Photo Gallery -->
+                <div class="space-y-4">
+                    <div class="rounded-2xl overflow-hidden bg-lavender-50 aspect-square border border-lavender-200 shadow-inner">
+                        <img id="main-detail-img" src="${product.photos[0]}" alt="${product.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button onclick="document.getElementById('main-detail-img').src='${product.photos[0]}'" class="rounded-xl overflow-hidden aspect-square border-2 border-lavender-300 hover:border-lavender-600 transition">
+                            <img src="${product.photos[0]}" class="w-full h-full object-cover">
+                        </button>
+                        <button onclick="document.getElementById('main-detail-img').src='${product.photos[1]}'" class="rounded-xl overflow-hidden aspect-square border-2 border-lavender-300 hover:border-lavender-600 transition">
+                            <img src="${product.photos[1]}" class="w-full h-full object-cover">
+                        </button>
+                        <button onclick="document.getElementById('main-detail-img').src='${product.photos[2]}'" class="rounded-xl overflow-hidden aspect-square border-2 border-lavender-300 hover:border-lavender-600 transition">
+                            <img src="${product.photos[2]}" class="w-full h-full object-cover">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Details & Options -->
+                <div class="space-y-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="bg-lavender-100 text-lavender-700 text-xs font-semibold px-3 py-1 rounded-full">${product.category}</span>
+                            <span class="text-xs text-slate-500"><i class="fa-solid fa-dog text-lavender-600"></i> Modelo: ${product.dogBreed}</span>
+                        </div>
+
+                        <h2 class="text-2xl sm:text-3xl font-bold font-cute text-slate-800">${product.name}</h2>
+                        
+                        <div class="text-2xl font-bold text-lavender-700 font-cute">${formattedPrice}</div>
+
+                        <p class="text-sm text-slate-600 leading-relaxed">${product.description}</p>
+
+                        <!-- Specifications Box -->
+                        <div class="bg-lavender-50/70 p-4 rounded-2xl border border-lavender-200 space-y-2 text-xs">
+                            <div class="flex items-center gap-2 text-slate-700">
+                                <i class="fa-solid fa-ruler-combined text-lavender-600"></i>
+                                <span class="font-semibold">Medidas:</span> ${product.measurements}
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-700">
+                                <i class="fa-solid fa-shirt text-lavender-600"></i>
+                                <span class="font-semibold">Material:</span> ${product.material}
+                            </div>
+                        </div>
+
+                        <!-- Color Selector -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-slate-700">Color / Diseño disponible:</label>
+                            <div id="modal-colors" class="flex flex-wrap gap-2">
+                                ${product.colorsAvailable.map((c, i) => `
+                                    <button type="button" onclick="selectModalOption('color', '${c}')" class="color-opt-${c} px-3 py-1.5 rounded-xl text-xs font-medium border ${i === 0 ? 'bg-lavender-600 text-white border-lavender-600' : 'bg-white text-slate-700 border-lavender-200 hover:bg-lavender-50'} transition">
+                                        ${c}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Size Selector -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-semibold text-slate-700">Talla:</label>
+                            <div id="modal-sizes" class="flex flex-wrap gap-2">
+                                ${product.sizesAvailable.map((s, i) => `
+                                    <button type="button" onclick="selectModalOption('size', '${s}')" class="size-opt-${s} px-3 py-1.5 rounded-xl text-xs font-medium border ${i === 0 ? 'bg-lavender-600 text-white border-lavender-600' : 'bg-white text-slate-700 border-lavender-200 hover:bg-lavender-50'} transition">
+                                        ${s}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Quantity -->
+                        <div class="flex items-center gap-4">
+                            <label class="text-xs font-semibold text-slate-700">Cantidad:</label>
+                            <div class="flex items-center border border-lavender-200 rounded-xl overflow-hidden bg-white">
+                                <button type="button" onclick="adjustModalQty(-1)" class="px-3 py-1 text-slate-600 hover:bg-lavender-50 transition">-</button>
+                                <span id="modal-qty" class="px-4 py-1 text-sm font-bold text-slate-800">1</span>
+                                <button type="button" onclick="adjustModalQty(1)" class="px-3 py-1 text-slate-600 hover:bg-lavender-50 transition">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Add To Cart -->
+                    <button onclick="addToCartFromModal(${product.id})" class="w-full bg-lavender-600 hover:bg-lavender-700 text-white font-semibold py-4 rounded-2xl shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2 transform active:scale-95">
+                        <i class="fa-solid fa-cart-plus"></i> Añadir al carrito
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        // Selected option state in modal
+        let selectedModalColor = null;
+        let selectedModalSize = null;
+        let modalQuantity = 1;
+
+        function selectModalOption(type, val) {
+            if (type === 'color') {
+                selectedModalColor = val;
+                document.querySelectorAll('#modal-colors button').forEach(btn => {
+                    btn.className = btn.textContent.trim() === val 
+                        ? 'px-3 py-1.5 rounded-xl text-xs font-medium border bg-lavender-600 text-white border-lavender-600 transition'
+                        : 'px-3 py-1.5 rounded-xl text-xs font-medium border bg-white text-slate-700 border-lavender-200 hover:bg-lavender-50 transition';
+                });
+            } else if (type === 'size') {
+                selectedModalSize = val;
+                document.querySelectorAll('#modal-sizes button').forEach(btn => {
+                    btn.className = btn.textContent.trim() === val 
+                        ? 'px-3 py-1.5 rounded-xl text-xs font-medium border bg-lavender-600 text-white border-lavender-600 transition'
+                        : 'px-3 py-1.5 rounded-xl text-xs font-medium border bg-white text-slate-700 border-lavender-200 hover:bg-lavender-50 transition';
+                });
+            }
+        }
+
+        function adjustModalQty(change) {
+            modalQuantity = Math.max(1, modalQuantity + change);
+            document.getElementById('modal-qty').textContent = modalQuantity;
+        }
+
+        // Quick add to cart from product card
+        function quickAddToCart(event, productId) {
+            event.stopPropagation();
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === product.id && item.color === product.color && item.size === product.size);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    color: product.color,
+                    size: product.size,
+                    photo: product.photos[0],
+                    quantity: 1
+                });
+            }
+
+            updateCartUI();
+            showToast(`¡Agregado al carrito: ${product.name} 🐾!`);
+            openCartModal();
+        }
+
+        // Add to cart from modal
+        function addToCartFromModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const color = selectedModalColor || product.colorsAvailable[0];
+            const size = selectedModalSize || product.sizesAvailable[0];
+            const qty = modalQuantity;
+
+            const existingItem = cart.find(item => item.id === product.id && item.color === color && item.size === size);
+            if (existingItem) {
+                existingItem.quantity += qty;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    color: color,
+                    size: size,
+                    photo: product.photos[0],
+                    quantity: qty
+                });
+            }
+
+            closeProductModal();
+            updateCartUI();
+            showToast(`¡${qty} unidad(es) de ${product.name} añadidas al carrito! 🛍️`);
+            openCartModal();
+
+            // Reset modal options
+            selectedModalColor = null;
+            selectedModalSize = null;
+            modalQuantity = 1;
+        }
+
+        // Cart Management
+        function openCartModal() {
+            document.getElementById('cart-modal').classList.remove('hidden');
+        }
+
+        function closeCartModal() {
+            document.getElementById('cart-modal').classList.add('hidden');
+        }
+
+        function updateCartUI() {
+            const counter = document.getElementById('cart-counter');
+            const countText = document.getElementById('cart-items-count-text');
+            const container = document.getElementById('cart-items-container');
+            const subtotalEl = document.getElementById('cart-subtotal');
+            const totalEl = document.getElementById('cart-total');
+            const triggerBtn = document.getElementById('checkout-trigger-btn');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            counter.textContent = totalItems;
+            countText.textContent = `${totalItems} producto(s)`;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 space-y-3">
+                        <div class="text-5xl">🛒</div>
+                        <h4 class="font-bold text-slate-800 text-base">Tu carrito está vacío</h4>
+                        <p class="text-xs text-slate-500">Explora nuestro catálogo y consiente a tu perrito hoy.</p>
+                    </div>
+                `;
+                subtotalEl.textContent = '$0';
+                totalEl.textContent = '$3.990';
+                triggerBtn.disabled = true;
+                return;
+            }
+
+            triggerBtn.disabled = false;
+            container.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                const formattedPrice = '$' + item.price.toLocaleString('es-CL');
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex items-center gap-4 bg-lavender-50/50 p-4 rounded-2xl border border-lavender-200 relative group';
+                itemDiv.innerHTML = `
+                    <img src="${item.photo}" class="w-16 h-16 object-cover rounded-xl border border-lavender-200">
+                    <div class="flex-1 space-y-1">
+                        <h4 class="font-bold text-slate-800 text-sm font-cute line-clamp-1">${item.name}</h4>
+                        <div class="text-xs text-slate-500 flex flex-wrap gap-x-3">
+                            <span>Color: <b>${item.color}</b></span>
+                            <span>Talla: <b>${item.size}</b></span>
+                        </div>
+                        <div class="text-sm font-bold text-lavender-700 font-cute">${formattedPrice}</div>
+                    </div>
+                    <div class="flex flex-col items-end justify-between h-16">
+                        <button onclick="removeFromCart(${index})" class="text-slate-400 hover:text-red-500 transition text-xs">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                        <div class="flex items-center border border-lavender-200 rounded-lg bg-white overflow-hidden text-xs">
+                            <button onclick="updateCartQty(${index}, -1)" class="px-2 py-0.5 text-slate-600 hover:bg-lavender-50">-</button>
+                            <span class="px-2.5 py-0.5 font-bold text-slate-800">${item.quantity}</span>
+                            <button onclick="updateCartQty(${index}, 1)" class="px-2 py-0.5 text-slate-600 hover:bg-lavender-50">+</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(itemDiv);
+            });
+
+            const shipping = 3990;
+            const finalTotal = subtotal + shipping;
+
+            subtotalEl.textContent = '$' + subtotal.toLocaleString('es-CL');
+            totalEl.textContent = '$' + finalTotal.toLocaleString('es-CL');
+        }
+
+        function updateCartQty(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+            showToast('Producto eliminado del carrito');
+        }
+
+        // Checkout Flow
+        function openCheckoutModal() {
+            if (cart.length === 0) return;
+            closeCartModal();
+
+            // Populate summary list in checkout
+            const summaryList = document.getElementById('checkout-summary-list');
+            summaryList.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                const div = document.createElement('div');
+                div.className = 'flex justify-between';
+                div.innerHTML = `<span>${item.quantity}x ${item.name} (${item.size})</span> <span>$${itemTotal.toLocaleString('es-CL')}</span>`;
+                summaryList.appendChild(div);
+            });
+
+            const finalTotal = subtotal + 3990;
+            document.getElementById('checkout-modal-total').textContent = '$' + finalTotal.toLocaleString('es-CL');
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function togglePaymentFields(method) {
+            const bankContainer = document.getElementById('bank-selection-container');
+            if (method === 'debito' || method === 'credito') {
+                bankContainer.classList.remove('hidden');
+            } else {
+                bankContainer.classList.add('hidden');
+            }
+        }
+
+        // Process payment and show success animation
+        function processPayment(event) {
+            event.preventDefault();
+            closeCheckoutModal();
+
+            const randomOrderNum = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('order-number').textContent = randomOrderNum;
+            document.getElementById('success-modal').classList.remove('hidden');
+        }
+
+        function finishAndReset() {
+            document.getElementById('success-modal').classList.add('hidden');
+            cart = [];
+            updateCartUI();
+            navigateTo('home');
+        }
+
+        // Toast Notification System
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl text-sm font-medium flex items-center gap-3 animate-in fade-in slide-in-from-bottom duration-300 pointer-events-auto border border-lavender-500/30';
+            toast.innerHTML = `<i class="fa-solid fa-paw text-lavender-400"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'transition', 'duration-300');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
